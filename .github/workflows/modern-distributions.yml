@@ -4,9 +4,6 @@ on:
   pull_request:
     paths: ['distributions/**']
 
-permissions:
-  pull-requests: write
-
 jobs:
   check:
     name: Validate tar based distributions changes
@@ -14,9 +11,8 @@ jobs:
     steps:
         - name: Checkout repo
           uses: actions/checkout@v4
-          with:           
+          with:
             fetch-depth: 0
-
 
         - name: Install pip packages
           run: pip install -r distributions/requirements.txt
@@ -28,7 +24,5 @@ jobs:
             --repo-path . \
             --compare-with-branch 'origin/${{ github.base_ref }}' \
             --manifest distributions/DistributionInfo.json \
-            --github-token '${{ secrets.GITHUB_TOKEN }}' \
-            --github-pr '${{ github.event.pull_request.number }}' \
-            --github-commit '${{ github.sha }}'
+
           shell: bash
